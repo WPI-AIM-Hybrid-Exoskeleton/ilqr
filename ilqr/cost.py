@@ -1229,12 +1229,12 @@ class PathQRCostMPC(Cost):
         self.R = np.array(R)
         self.x_path = np.array(x_path)
 
-        state_size = self.Q.shape[0]
+        state_size = self.Q[0].shape[0]
         action_size = self.R.shape[0]
         path_length = self.x_path.shape[0]
 
         if Q_terminal is None:
-            self.Q_terminal = self.Q
+            self.Q_terminal = self.Q[-1]
         else:
             self.Q_terminal = np.array(Q_terminal)
 
