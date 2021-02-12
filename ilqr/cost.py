@@ -1145,6 +1145,23 @@ class PathQsRCost(Cost):
         u_diff = u - self.u_path[i]
         return squared_x_cost + u_diff.T.dot(R).dot(u_diff)
 
+    def l_x(self, x, u, i, terminal=False):
+        """Partial derivative of cost function with respect to x.
+
+        Args:
+            x: Current state [state_size].
+            u: Current control [action_size]. None if terminal.
+            i: Current time step.
+            terminal: Compute terminal cost. Default: False.
+
+        Returns:
+            dl/dx [state_size].
+        """
+        Q_plus_Q_T = self._Q_plus_Q_T_terminal if terminal else self._Q_plus_Q_T[i]
+        x_diff = x - self.x_path[i]
+        return x_diff.T.dot(Q_plus_Q_T)
+
+
     def l_u(self, x, u, i, terminal=False):
         """Partial derivative of cost function with respect to u.
 
